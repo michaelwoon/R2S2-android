@@ -10,13 +10,15 @@
     "@babel/plugin-transform-classes": "^7.1.0",
     "@babel/runtime": "^7.1.2",
     "babel-preset-react-native": "^4.0.0",
+    "core-js": "^2.5.7",
     "react": "16.5.0",
-    "react-native": "^0.55.4"
+    "react-native": "^0.55.4",
+    "react-navigation": "^2.18.0"
   },
   "devDependencies": {
     "babel-jest": "23.6.0",
     "jest": "23.6.0",
-    "metro-react-native-babel-preset": "^0.48.0",
+    "metro-react-native-babel-preset": "^0.48.1",
     "react-test-renderer": "16.5.0"
   },
   "jest": {
