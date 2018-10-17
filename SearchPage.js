@@ -13,24 +13,71 @@ import {
 
 
 type Props = {};
+function urlForQueryAndPage(key, value, pageNumber) {
+  const data = {
+      country: 'uk',
+      pretty: '1',
+      encoding: 'json',
+      listing_type: 'buy',
+      action: 'search_listings',
+      page: pageNumber,
+  };
+  data[key] = value;
+  //transforms data into name-value pairs
+  const querystring = Object.keys(data)
+    .map(key => key + '=' + encodeURIComponent(data[key]))
+    .join('&');
+
+  return 'https://api.nestoria.co.uk/api?' + querystring;
+}
 export default class SearchPage extends Component<Props> {
   static navigationOptions = {
     title: 'Bridge Search',
   };
   //defines function
   _onSearchTextChanged = (event) => {
-  this.setState({ searchString: event.nativeEvent.text });
-  console.log('Current: '+this.state.searchString+', Next: '+event.nativeEvent.text);
+    this.setState({ searchString: event.nativeEvent.text });
+    console.log('Current: '+this.state.searchString+', Next: '+event.nativeEvent.text);
   };
+  _executeQuery = (query) => {
+    console.log(query);
+    this.setState({ isLoading: true });
+    fetch(query)
+    .then(response => response.json())
+    .then(json => this._handleResponse(json.response))
+    .catch(error =>
+     this.setState({
+      isLoading: false,
+      message: 'Something bad happened ' + error
+   }));
+  };
+  //initiates query
+  _onSearchPressed = () => {
+    const query = urlForQueryAndPage('place_name', this.state.searchString, 1);
+    this._executeQuery(query);
+  };
+  _handleResponse = (response) => {
+    this.setState({ isLoading: false , message: '' });
+    if (response.application_response_code.substr(0, 1) === '1') {
+      this.props.navigation.navigate(
+        'Results', {listings: response.listings});
+    } else {
+      this.setState({ message: 'Location not recognized; please try again.'});
+    }
+  };
+
   //gives component a state, intial value
   constructor(props) {
     super(props);
     this.state = {
-      searchString: 'london'
+      searchString: 'london',
+      isLoading: false,
+      message: '',
     };
   }
   render() {
-    console.log('SearchPage.render');
+    const spinner = this.state.isLoading ?
+      <ActivityIndicator size='large'/> : null;
     return (
       <View style={styles.container}>
         <Text style={styles.description}>
@@ -47,12 +94,14 @@ export default class SearchPage extends Component<Props> {
             onChange={this._onSearchTextChanged}
             placeholder='Search via name or postcode'/>
           <Button
-            onPress={() => {}}
+            onPress={this._onSearchPressed}
             color='#48BBEC'
             title='Go'
           />
         </View>
         <Image source={require('./Resources/house.png')} style={styles.image}/>
+        {spinner}
+        <Text style={styles.description}>{this.state.message}</Text>
       </View>
     );
   }

@@ -1,7 +1,7 @@
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
- *
+ * https://www.raywenderlich.com/247-react-native-tutorial-building-android-apps-with-javascript
  * @format
  * @flow
  */
@@ -15,21 +15,14 @@ import {
   createStackNavigator,
 } from 'react-navigation';
 import SearchPage from './SearchPage';
-
-
-//variable based on platform (no longer needed)
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+import SearchResults from './SearchResults';
 
 //component that represents the UI
 type Props = {};
 //configures searchpage component as first on stack
 const App = createStackNavigator({
   Home: { screen: SearchPage },
+  Results: { screen: SearchResults },
 });
 export default App;
 //style object
