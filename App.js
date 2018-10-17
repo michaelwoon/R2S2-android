@@ -16,6 +16,7 @@ import {
 } from 'react-navigation';
 import SearchPage from './SearchPage';
 import SearchResults from './SearchResults';
+import TableView from './TableView';
 
 //component that represents the UI
 type Props = {};
@@ -23,9 +24,6 @@ type Props = {};
 const App = createStackNavigator({
   Home: { screen: SearchPage },
   Results: { screen: SearchResults },
+  Table: { screen: TableView },
 });
 export default App;
-//style object
-const styles = StyleSheet.create({
-
-});

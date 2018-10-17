@@ -78,11 +78,14 @@ export default class SearchPage extends Component<Props> {
   render() {
     const spinner = this.state.isLoading ?
       <ActivityIndicator size='large'/> : null;
+    const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
-        <Text style={styles.description}>
-          Search for a bridge
-        </Text>
+      <Button
+        title="View all data"
+        onPress={() =>
+          navigate('Table')
+        } />
         <Text style={styles.description}>
           Search by place-name or postcode.
         </Text>
