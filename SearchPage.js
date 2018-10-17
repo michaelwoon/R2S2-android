@@ -102,7 +102,7 @@ export default class SearchPage extends Component<Props> {
             title='Go'
           />
         </View>
-        <Image source={require('./Resources/house.png')} style={styles.image}/>
+        <Image source={require('./Resources/bridge.png')} style={styles.image}/>
         {spinner}
         <Text style={styles.description}>{this.state.message}</Text>
       </View>
@@ -113,6 +113,7 @@ export default class SearchPage extends Component<Props> {
 const styles = StyleSheet.create({
   description: {
     marginBottom: 20,
+    marginTop: 20,
     fontSize: 18,
     textAlign: 'center',
     color: '#656565'

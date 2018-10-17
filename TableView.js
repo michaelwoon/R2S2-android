@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import {
+  FlatList,
   StyleSheet,
   Text,
   TextInput,
@@ -13,31 +14,58 @@ import {
 
 
 type Props = {};
+
 export default class TableView extends Component<Props> {
+  constructor(props){
+    super(props);
+    this.state ={ isLoading: true}
+  }
   static navigationOptions = {
     title: 'Table',
   };
+  componentDidMount(){
+    return fetch('https://facebook.github.io/react-native/movies.json')
+      .then((response) => response.json())
+      .then((responseJson) => {
+
+        this.setState({
+          isLoading: false,
+          dataSource: responseJson.movies,
+          fullData: responseJson.description,
+        }, function(){
+
+        });
+
+      })
+      .catch((error) =>{
+        console.error(error);
+      });
+  }
+
   render() {
+    if(this.state.isLoading){
+      return(
+        <View style={{flex: 1, padding: 20}}>
+          <ActivityIndicator/>
+        </View>
+      )
+    }
+
     return (
       <View style={styles.container}>
-        <Text style={styles.description}>
-          filler for table data
-        </Text>
+        <FlatList
+          data={this.state.dataSource}
+          renderItem={({item}) => <Text>{item.title}, {item.releaseYear}</Text>}
+          keyExtractor={({id}, index) => id}
+        />
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  description: {
-    marginBottom: 20,
-    fontSize: 18,
-    textAlign: 'center',
-    color: '#656565'
-  },
   container: {
-    padding: 30,
-    marginTop: 65,
-    alignItems: 'center'
+    paddingTop: 20,
+    flex: 1,
   },
 });
