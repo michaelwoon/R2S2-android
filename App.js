@@ -17,6 +17,7 @@ import {
 import SearchPage from './SearchPage';
 import SearchResults from './SearchResults';
 import TableView from './TableView';
+import Login from './Login';
 
 //component that represents the UI
 type Props = {};
@@ -25,5 +26,6 @@ const App = createStackNavigator({
   Home: { screen: SearchPage },
   Results: { screen: SearchResults },
   Table: { screen: TableView },
+  Login: { screen: Login },
 });
 export default App;

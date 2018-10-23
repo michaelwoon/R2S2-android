@@ -32,7 +32,7 @@ function urlForQueryAndPage(key, value, pageNumber) {
 }
 export default class SearchPage extends Component<Props> {
   static navigationOptions = {
-    title: 'Bridge Search',
+    title: 'Flood Warning',
   };
   //defines function
   _onSearchTextChanged = (event) => {
@@ -81,11 +81,20 @@ export default class SearchPage extends Component<Props> {
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
-      <Button
-        title="View all data"
-        onPress={() =>
-          navigate('Table')
-        } />
+      <View style={styles.wrapper}>
+        <Button
+          title="Login"
+          onPress={() =>
+            navigate('Login')
+          } />
+      </View>
+      <View style={styles.wrapper}>
+        <Button
+          title="View all bridges"
+          onPress={() =>
+            navigate('Table')
+          } />
+      </View>
         <Text style={styles.description}>
           Search by place-name or postcode.
         </Text>
@@ -113,20 +122,20 @@ export default class SearchPage extends Component<Props> {
 const styles = StyleSheet.create({
   description: {
     marginBottom: 20,
-    marginTop: 20,
+    marginTop: 10,
     fontSize: 18,
     textAlign: 'center',
     color: '#656565'
   },
   container: {
     padding: 30,
-    marginTop: 65,
+    marginTop: 20,
     alignItems: 'center'
   },
   flowRight: {
-  flexDirection: 'row',
-  alignItems: 'center',
-  alignSelf: 'stretch',
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'stretch',
   },
   searchInput: {
     height: 36,
@@ -140,8 +149,11 @@ const styles = StyleSheet.create({
     color: '#48BBEC',
   },
   image: {
-  width: 217,
-  height: 138,
+    width: 217,
+    height: 138,
   },
-
+  wrapper: {
+    marginTop : 10,
+    marginBottom: 10,
+  },
 });
