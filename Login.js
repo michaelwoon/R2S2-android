@@ -22,7 +22,7 @@ export default class Login extends Component {
 
   constructor(props) {
     super(props);
-    //this.loginFunc = this.loginFunc.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
     this.state = {
       isLoading : true,
     };
@@ -33,7 +33,6 @@ export default class Login extends Component {
   };
 
   componentDidMount() {
-    //e.preventDefault();
     let headers = new Headers();
 
     headers.append(
@@ -44,7 +43,7 @@ export default class Login extends Component {
         )
     );
 
-    fetch("/api/login", {
+    fetch("https://vfis-beta.uvahydroinformatics.org/api/login", {
       method: "GET",
       headers: headers
     })
@@ -63,6 +62,7 @@ export default class Login extends Component {
               }.bind(this)
             );
           } else {
+            console.log('No token returned')
             this.setState({
               isLoading: false,
             });
@@ -72,9 +72,9 @@ export default class Login extends Component {
           }
         }.bind(this)
       )
-      .catch(function(ex) {
-        console.log('GET call failed')
+      .catch(function(ex) { //function ending up here
         console.log(ex);
+        console.log('GET failed')
       });
   }
 

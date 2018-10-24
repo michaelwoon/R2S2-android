@@ -85,7 +85,7 @@ export default class SearchPage extends Component<Props> {
         <Button
           title="Login"
           onPress={() =>
-            navigate('Login')
+            navigate('Form')
           } />
       </View>
       <View style={styles.wrapper}>
