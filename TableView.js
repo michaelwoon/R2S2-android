@@ -18,11 +18,51 @@ type Props = {};
 export default class TableView extends Component<Props> {
   constructor(props){
     super(props);
-    this.state ={ isLoading: true}
-  }
+    this.state = { isLoading: true};
+    this.bridges = {};
+  };
   static navigationOptions = {
     title: 'Table',
   };
+
+  loadBridges(){
+    let headers = new Headers();
+
+    headers.append(
+      "Authorization",
+      "Basic " + base64.encode(global.token + ":x")
+    );
+
+    fetch("https://vfis-beta.uvahydroinformatics.org/api/bridges", {
+      method: "GET",
+      headers: headers
+    })
+      .then(function(response) {
+        return response.json();
+      })
+      .then(json => {
+        this.setState({
+          // tableOptions: {
+          //   loading: false,
+          //   showPagination: true,
+          //   showPageSizeOptions: true,
+          //   showPageJump: true,
+          //   collapseOnSortingChange: true,
+          //   collapseOnPageChange: true,
+          //   collapseOnDataChange: true,
+          //   freezeWhenExpanded: false,
+          //   filterable: true,
+          //   sortable: true,
+          //   resizable: true
+          // },
+          bridges: json
+        });
+      })
+      .catch(function(ex) {
+        console.log("parsing failed", ex);
+      });
+  };
+
   componentDidMount(){
     return fetch('https://facebook.github.io/react-native/movies.json')
       .then((response) => response.json())
@@ -40,7 +80,7 @@ export default class TableView extends Component<Props> {
       .catch((error) =>{
         console.error(error);
       });
-  }
+  };
 
   render() {
     if(this.state.isLoading){

@@ -70,7 +70,7 @@ export default class SearchPage extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
-      searchString: 'london',
+      searchString: 'virginia',
       isLoading: false,
       message: '',
     };
