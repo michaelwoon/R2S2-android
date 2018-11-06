@@ -39,6 +39,9 @@ export default class SearchPage extends Component<Props> {
     this.setState({ searchString: event.nativeEvent.text });
     console.log('Current: '+this.state.searchString+', Next: '+event.nativeEvent.text);
   };
+  //for bridge search: get all bridges, filter by the string
+  //check both stream name and roadname (compare in lower case)
+  //if no responses then say to try again
   _executeQuery = (query) => {
     console.log(query);
     this.setState({ isLoading: true });
@@ -51,7 +54,6 @@ export default class SearchPage extends Component<Props> {
       message: 'Something bad happened ' + error
    }));
   };
-  //initiates query
   _onSearchPressed = () => {
     const query = urlForQueryAndPage('place_name', this.state.searchString, 1);
     this._executeQuery(query);
@@ -96,7 +98,7 @@ export default class SearchPage extends Component<Props> {
           } />
       </View>
         <Text style={styles.description}>
-          Search by place-name or postcode.
+          Search by stream or road name
         </Text>
         <View style={styles.flowRight}>
           <TextInput

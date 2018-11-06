@@ -10,8 +10,8 @@ import {
   Button,
   ActivityIndicator,
   Image,
-  ListItem,
 } from 'react-native';
+import { ListItem } from 'react-native-elements';
 import base64 from "react-native-base64";
 
 
@@ -54,6 +54,11 @@ export default class TableView extends Component<Props> {
       });
   };
 
+  fixCase(str){
+    str = str.toLowerCase();
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
   componentDidMount(){
     this.loadBridges();
   };
@@ -72,13 +77,13 @@ export default class TableView extends Component<Props> {
       <View style={styles.container}>
         <FlatList
           data={this.state.bridges}
-          renderItem = {({item}) => <Text>{item.stream}, {item.roadname}</Text>}
-          // {({item}) => (
-          //   <ListItem
-          //   title = {item.stream}
-          //   subtitle = {item.roadname}
-          //   />
-          // )}
+          renderItem =
+          {({item}) => (
+            <ListItem
+            title = {this.fixCase(item.roadname)}
+            subtitle = {this.fixCase(item.stream)}
+            />
+          )}
           keyExtractor={item => item.fedid}
         />
       </View>
