@@ -10,7 +10,9 @@ import {
   Button,
   ActivityIndicator,
   Image,
+  ListItem,
 } from 'react-native';
+import base64 from "react-native-base64";
 
 
 type Props = {};
@@ -19,7 +21,7 @@ export default class TableView extends Component<Props> {
   constructor(props){
     super(props);
     this.state = { isLoading: true};
-    this.bridges = {};
+    this.bridges = [];
   };
   static navigationOptions = {
     title: 'Table',
@@ -41,46 +43,21 @@ export default class TableView extends Component<Props> {
         return response.json();
       })
       .then(json => {
+        console.log("data received"); //makes it here
         this.setState({
-          // tableOptions: {
-          //   loading: false,
-          //   showPagination: true,
-          //   showPageSizeOptions: true,
-          //   showPageJump: true,
-          //   collapseOnSortingChange: true,
-          //   collapseOnPageChange: true,
-          //   collapseOnDataChange: true,
-          //   freezeWhenExpanded: false,
-          //   filterable: true,
-          //   sortable: true,
-          //   resizable: true
-          // },
-          bridges: json
+          isLoading: false,
+          bridges: json,
         });
       })
       .catch(function(ex) {
-        console.log("parsing failed", ex);
+        console.log("parsing failed or no token", ex);
       });
   };
 
   componentDidMount(){
-    return fetch('https://facebook.github.io/react-native/movies.json')
-      .then((response) => response.json())
-      .then((responseJson) => {
-
-        this.setState({
-          isLoading: false,
-          dataSource: responseJson.movies,
-          fullData: responseJson.description,
-        }, function(){
-
-        });
-
-      })
-      .catch((error) =>{
-        console.error(error);
-      });
+    this.loadBridges();
   };
+
 
   render() {
     if(this.state.isLoading){
@@ -91,12 +68,18 @@ export default class TableView extends Component<Props> {
       )
     }
 
-    return (
+    return ( //add function to make it not all uppercase
       <View style={styles.container}>
         <FlatList
-          data={this.state.dataSource}
-          renderItem={({item}) => <Text>{item.title}, {item.releaseYear}</Text>}
-          keyExtractor={({id}, index) => id}
+          data={this.state.bridges}
+          renderItem = {({item}) => <Text>{item.stream}, {item.roadname}</Text>}
+          // {({item}) => (
+          //   <ListItem
+          //   title = {item.stream}
+          //   subtitle = {item.roadname}
+          //   />
+          // )}
+          keyExtractor={item => item.fedid}
         />
       </View>
     );
