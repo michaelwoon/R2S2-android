@@ -15,9 +15,14 @@ class ListItem extends React.PureComponent {
     this.props.onPressItem(this.props.index);
   }
 
+  fixCase(str){
+    str = str.toLowerCase();
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
   render() {
     const item = this.props.item;
-    const price = item.price_formatted.split(' ')[0];
+    // const price = item.price_formatted.split(' ')[0];
     return (
       <TouchableHighlight
         onPress={this._onPress}
@@ -26,9 +31,9 @@ class ListItem extends React.PureComponent {
           <View style={styles.rowContainer}>
             <Image style={styles.thumb} source={{ uri: item.img_url }} />
             <View style={styles.textContainer}>
-              <Text style={styles.price}>{price}</Text>
+              <Text style={styles.price}>{this.fixCase(item.roadname)}</Text>
               <Text style={styles.title}
-                numberOfLines={1}>{item.title}</Text>
+                numberOfLines={1}>{this.fixCase(item.stream)}</Text>
             </View>
           </View>
           <View style={styles.separator}/>
@@ -62,7 +67,7 @@ export default class SearchResults extends Component<Props> {
     const { params } = this.props.navigation.state;
     return (
       <FlatList
-        data={params.listings}
+        data={params.bridges}
         keyExtractor={this._keyExtractor}
         renderItem={this._renderItem}
       />

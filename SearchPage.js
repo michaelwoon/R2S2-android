@@ -10,7 +10,7 @@ import {
   ActivityIndicator,
   Image,
 } from 'react-native';
-
+import base64 from "react-native-base64";
 
 type Props = {};
 function urlForQueryAndPage(key, value, pageNumber) {
@@ -35,6 +35,16 @@ export default class SearchPage extends Component<Props> {
     title: 'Flood Warning',
   };
   //defines function
+  filterJson(data,searchstr){
+    var newdata = [];
+    searchstr = searchstr.toLowerCase();
+    for(var i = 0; i < data.length; i++) {
+      if(data[i].stream.toLowerCase().includes(searchstr) || data[i].roadname.toLowerCase().includes(searchstr)){
+        newdata.push(data[i]);
+      }
+    }
+    return newdata;
+  };
   _onSearchTextChanged = (event) => {
     this.setState({ searchString: event.nativeEvent.text });
     console.log('Current: '+this.state.searchString+', Next: '+event.nativeEvent.text);
@@ -44,26 +54,55 @@ export default class SearchPage extends Component<Props> {
   //if no responses then say to try again
   _executeQuery = (query) => {
     console.log(query);
-    this.setState({ isLoading: true });
-    fetch(query)
+   //  this.setState({ isLoading: true });
+   //  fetch(query)
+   //  .then(response => response.json())
+   //  .then(json => this._handleResponse(json.response))
+   //  .catch(error =>
+   //   this.setState({
+   //    isLoading: false,
+   //    message: 'Something bad happened ' + error
+   // }));
+   let headers = new Headers();
+
+   headers.append(
+     "Authorization",
+     "Basic " + base64.encode(global.token + ":x")
+   );
+
+   fetch("https://vfis-beta.uvahydroinformatics.org/api/bridges", {
+     method: "GET",
+     headers: headers
+   })
     .then(response => response.json())
-    .then(json => this._handleResponse(json.response))
-    .catch(error =>
-     this.setState({
-      isLoading: false,
-      message: 'Something bad happened ' + error
-   }));
+    .then(json => this._handleResponse(json))
+     .then(function(response) {
+       return response.json();
+     })
+     .then(json => {
+       console.log("data received"); //makes it here
+       this.setState({
+         isLoading: false,
+         // bridges: json,
+       });
+     })
+     .catch(function(ex) {
+       console.log("parsing failed or no token", ex);
+     });
+
   };
   _onSearchPressed = () => {
-    const query = urlForQueryAndPage('place_name', this.state.searchString, 1);
+    const query = this.state.searchString;
     this._executeQuery(query);
   };
   _handleResponse = (response) => {
     this.setState({ isLoading: false , message: '' });
-    if (response.application_response_code.substr(0, 1) === '1') {
+    var filteredResponse = this.filterJson(response,this.state.searchString)
+    if (filteredResponse.length > 0) {
       this.props.navigation.navigate(
-        'Results', {listings: response.listings});
+        'Results', {bridges: filteredResponse});
     } else {
+      console.log('filteredResponse len == 0');
       this.setState({ message: 'Location not recognized; please try again.'});
     }
   };
@@ -72,7 +111,7 @@ export default class SearchPage extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
-      searchString: 'virginia',
+      searchString: '',
       isLoading: false,
       message: '',
     };
@@ -106,7 +145,7 @@ export default class SearchPage extends Component<Props> {
             style={styles.searchInput}
             value={this.state.searchString}
             onChange={this._onSearchTextChanged}
-            placeholder='Search via name or postcode'/>
+            placeholder='Type here!'/>
           <Button
             onPress={this._onSearchPressed}
             color='#48BBEC'
