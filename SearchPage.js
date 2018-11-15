@@ -107,6 +107,11 @@ export default class SearchPage extends Component<Props> {
     }
   };
 
+  logout(){
+    this.props.navigation.navigate('Form');
+    global.token = '';
+  }
+
   //gives component a state, intial value
   constructor(props) {
     super(props);
@@ -124,9 +129,9 @@ export default class SearchPage extends Component<Props> {
       <View style={styles.container}>
       <View style={styles.wrapper}>
         <Button
-          title="Login"
+          title="Log out"
           onPress={() =>
-            navigate('Form')
+            this.logout()
           } />
       </View>
       <View style={styles.wrapper}>

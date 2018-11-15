@@ -1,10 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * https://www.raywenderlich.com/247-react-native-tutorial-building-android-apps-with-javascript
- * @format
- * @flow
- */
 //strict mode has better error handling
  'use strict';
 
@@ -24,10 +17,10 @@ import FormGenerator from './FormGenerator'
 type Props = {};
 //configures searchpage component as first on stack
 const App = createStackNavigator({
+  Form: { screen: FormGenerator },
   Home: { screen: SearchPage },
   Results: { screen: SearchResults },
   Table: { screen: TableView },
   Login: { screen: Login },
-  Form: { screen: FormGenerator },
 });
 export default App;

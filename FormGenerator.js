@@ -62,6 +62,7 @@ export default class FormGenerator extends Component {
                 );
                 global.token = data.token;
                 console.log(global.token);
+                this.props.navigation.navigate('Home');
               }.bind(this)
             );
           } else {
