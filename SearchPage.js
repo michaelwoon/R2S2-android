@@ -9,27 +9,11 @@ import {
   Button,
   ActivityIndicator,
   Image,
+  Alert,
 } from 'react-native';
 import base64 from "react-native-base64";
 
 type Props = {};
-function urlForQueryAndPage(key, value, pageNumber) {
-  const data = {
-      country: 'uk',
-      pretty: '1',
-      encoding: 'json',
-      listing_type: 'buy',
-      action: 'search_listings',
-      page: pageNumber,
-  };
-  data[key] = value;
-  //transforms data into name-value pairs
-  const querystring = Object.keys(data)
-    .map(key => key + '=' + encodeURIComponent(data[key]))
-    .join('&');
-
-  return 'https://api.nestoria.co.uk/api?' + querystring;
-}
 export default class SearchPage extends Component<Props> {
   static navigationOptions = {
     title: 'Flood Warning',
@@ -47,7 +31,7 @@ export default class SearchPage extends Component<Props> {
   };
   _onSearchTextChanged = (event) => {
     this.setState({ searchString: event.nativeEvent.text });
-    console.log('Current: '+this.state.searchString+', Next: '+event.nativeEvent.text);
+    // console.log('Current: '+this.state.searchString+', Next: '+event.nativeEvent.text);
   };
   //for bridge search: get all bridges, filter by the string
   //check both stream name and roadname (compare in lower case)
@@ -80,7 +64,7 @@ export default class SearchPage extends Component<Props> {
        return response.json();
      })
      .then(json => {
-       console.log("data received"); //makes it here
+       console.log("data received");
        this.setState({
          isLoading: false,
          // bridges: json,
@@ -103,7 +87,8 @@ export default class SearchPage extends Component<Props> {
         'Results', {bridges: filteredResponse});
     } else {
       console.log('filteredResponse len == 0');
-      this.setState({ message: 'Location not recognized; please try again.'});
+      this.setState({ message: 'No results found'});
+      Alert.alert('No results found');
     }
   };
 
@@ -112,7 +97,6 @@ export default class SearchPage extends Component<Props> {
     global.token = '';
   }
 
-  //gives component a state, intial value
   constructor(props) {
     super(props);
     this.state = {

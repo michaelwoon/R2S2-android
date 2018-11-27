@@ -12,7 +12,7 @@ import {
 
 class ListItem extends React.PureComponent {
   _onPress = () => {
-    this.props.onPressItem(this.props.index);
+    this.props.onPressItem(this.props.item,this.props.index);
   }
 
   fixCase(str){
@@ -20,18 +20,17 @@ class ListItem extends React.PureComponent {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
+
   render() {
     const item = this.props.item;
-    // const price = item.price_formatted.split(' ')[0];
     return (
       <TouchableHighlight
         onPress={this._onPress}
         underlayColor='#dddddd'>
         <View>
           <View style={styles.rowContainer}>
-            <Image style={styles.thumb} source={{ uri: item.img_url }} />
             <View style={styles.textContainer}>
-              <Text style={styles.price}>{this.fixCase(item.roadname)}</Text>
+              <Text style={styles.road}>{this.fixCase(item.roadname)}</Text>
               <Text style={styles.title}
                 numberOfLines={1}>{this.fixCase(item.stream)}</Text>
             </View>
@@ -59,8 +58,9 @@ export default class SearchResults extends Component<Props> {
     />
   );
 
-  _onPressItem = (index) => {
+  _onPressItem = (item,index) => {
     console.log("Pressed row: "+index);
+    this.props.navigation.navigate('Info', {bridge: item});
   };
 
   render() {
@@ -77,11 +77,6 @@ export default class SearchResults extends Component<Props> {
 
 
 const styles = StyleSheet.create({
-  thumb: {
-    width: 80,
-    height: 80,
-    marginRight: 10
-  },
   textContainer: {
     flex: 1
   },
@@ -89,7 +84,7 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: '#dddddd'
   },
-  price: {
+  road: {
     fontSize: 25,
     fontWeight: 'bold',
     color: '#48BBEC'

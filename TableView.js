@@ -10,9 +10,42 @@ import {
   Button,
   ActivityIndicator,
   Image,
+  TouchableHighlight,
 } from 'react-native';
-import { ListItem } from 'react-native-elements';
 import base64 from "react-native-base64";
+
+class ListItem extends React.PureComponent {
+  _onPress = () => {
+    this.props.onPressItem(this.props.item,this.props.index);
+  }
+
+  fixCase(str){
+    str = str.toLowerCase();
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
+
+  render() {
+    const item = this.props.item;
+    return (
+      <TouchableHighlight
+        onPress={this._onPress}
+        underlayColor='#dddddd'>
+        <View>
+          <View style={styles.rowContainer}>
+            <View style={styles.textContainer}>
+              <Text style={styles.road}>{this.fixCase(item.roadname)}</Text>
+              <Text style={styles.title}
+                numberOfLines={1}>{this.fixCase(item.stream)}</Text>
+            </View>
+          </View>
+          <View style={styles.separator}/>
+        </View>
+      </TouchableHighlight>
+    );
+  }
+}
+
 
 
 type Props = {};
@@ -43,7 +76,7 @@ export default class TableView extends Component<Props> {
         return response.json();
       })
       .then(json => {
-        console.log("data received"); //makes it here
+        console.log("data received");
         this.setState({
           isLoading: false,
           bridges: json,
@@ -63,37 +96,52 @@ export default class TableView extends Component<Props> {
     this.loadBridges();
   };
 
+  _keyExtractor = (item, index) => index.toString();
+
+  _renderItem = ({item, index}) => (
+    <ListItem
+      item={item}
+      index={index}
+      onPressItem={this._onPressItem}
+    />
+  );
+
+  _onPressItem = (item,index) => {
+    console.log("Pressed row: "+index);
+    this.props.navigation.navigate('Info', {bridge: item});
+  };
 
   render() {
-    if(this.state.isLoading){
-      return(
-        <View style={{flex: 1, padding: 20}}>
-          <ActivityIndicator/>
-        </View>
-      )
-    }
-
-    return ( //add function to make it not all uppercase
-      <View style={styles.container}>
-        <FlatList
-          data={this.state.bridges}
-          renderItem =
-          {({item}) => (
-            <ListItem
-            title = {this.fixCase(item.roadname)}
-            subtitle = {this.fixCase(item.stream)}
-            />
-          )}
-          keyExtractor={item => item.fedid}
-        />
-      </View>
+    const { params } = this.props.navigation.state;
+    return (
+      <FlatList
+        data={this.state.bridges}
+        keyExtractor={this._keyExtractor}
+        renderItem={this._renderItem}
+      />
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: 20,
-    flex: 1,
+  textContainer: {
+    flex: 1
+  },
+  separator: {
+    height: 1,
+    backgroundColor: '#dddddd'
+  },
+  road: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: '#48BBEC'
+  },
+  title: {
+    fontSize: 20,
+    color: '#656565'
+  },
+  rowContainer: {
+    flexDirection: 'row',
+    padding: 10
   },
 });
