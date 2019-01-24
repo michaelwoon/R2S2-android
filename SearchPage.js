@@ -10,6 +10,7 @@ import {
   ActivityIndicator,
   Image,
   Alert,
+  Picker,
 } from 'react-native';
 import base64 from "react-native-base64";
 
@@ -103,6 +104,7 @@ export default class SearchPage extends Component<Props> {
       searchString: '',
       isLoading: false,
       message: '',
+      selectedDate: '',
     };
   }
   render() {
@@ -141,6 +143,14 @@ export default class SearchPage extends Component<Props> {
             title='Go'
           />
         </View>
+        <Picker
+          selectedValue={this.state.selectedDate}
+          style={{ height: 50, width: 150 }}
+          onValueChange={(itemValue, itemIndex) => this.setState({selectedDate: itemValue})}>
+          <Picker.Item label="Java" value="java" />
+          <Picker.Item label="JavaScript" value="js" />
+        </Picker>
+
         <Image source={require('./Resources/bridge.png')} style={styles.image}/>
         {spinner}
         <Text style={styles.description}>{this.state.message}</Text>
