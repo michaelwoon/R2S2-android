@@ -20,6 +20,17 @@ class ListItem extends React.PureComponent {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
+  floodingColor(waterLevel){
+    if (waterLevel > 0) {
+      return '#ff8787';
+    }
+    else if (waterLevel < 0 && waterLevel > -0.3) {
+      return '#fdffa0';
+    }
+    else {
+      return '';
+    }
+  };
 
   render() {
     const item = this.props.item;
@@ -29,7 +40,8 @@ class ListItem extends React.PureComponent {
         underlayColor='#dddddd'>
         <View>
           <View style={styles.rowContainer}>
-            <View style={styles.textContainer}>
+            <View style={styles.textContainer}
+            backgroundColor = {this.floodingColor(item.floodedby)}>
               <Text style={styles.road}>{this.fixCase(item.roadname)}</Text>
               <Text style={styles.title}
                 numberOfLines={1}>{this.fixCase(item.stream)}</Text>
@@ -87,11 +99,11 @@ const styles = StyleSheet.create({
   road: {
     fontSize: 25,
     fontWeight: 'bold',
-    color: '#48BBEC'
+    color: '#3d3d3d'
   },
   title: {
     fontSize: 20,
-    color: '#656565'
+    color: '#3d3d3d'
   },
   rowContainer: {
     flexDirection: 'row',

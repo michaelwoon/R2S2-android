@@ -55,7 +55,7 @@ export default class SearchPage extends Component<Props> {
      "Basic " + base64.encode(global.token + ":x")
    );
 
-   fetch("https://vfis-beta.uvahydroinformatics.org/api/bridges", {
+   fetch("https://vfis-beta.uvahydroinformatics.org/api/bridges/" + this.state.selectedDate, {
      method: "GET",
      headers: headers
    })
@@ -124,7 +124,7 @@ export default class SearchPage extends Component<Props> {
         <Button
           title="View all bridges"
           onPress={() =>
-            navigate('Table')
+            navigate('Table',{date: this.state.selectedDate})
           } />
       </View>
         <Text style={styles.description}>
@@ -145,10 +145,10 @@ export default class SearchPage extends Component<Props> {
         </View>
         <Picker
           selectedValue={this.state.selectedDate}
-          style={{ height: 50, width: 150 }}
+          style={{ height: 50, width: 200 }}
           onValueChange={(itemValue, itemIndex) => this.setState({selectedDate: itemValue})}>
-          <Picker.Item label="Java" value="java" />
-          <Picker.Item label="JavaScript" value="js" />
+          <Picker.Item label="20181011-230000" value="20181011-230000" />
+          <Picker.Item label="20180917-190000" value="20180917-190000" />
         </Picker>
 
         <Image source={require('./Resources/bridge.png')} style={styles.image}/>

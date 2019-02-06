@@ -24,6 +24,17 @@ class ListItem extends React.PureComponent {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
+  floodingColor(waterLevel){
+    if (waterLevel > 0) {
+      return '#ff8787';
+    }
+    else if (waterLevel < 0 && waterLevel > -0.3) {
+      return '#fdffa0';
+    }
+    else {
+      return '';
+    }
+  };
 
   render() {
     const item = this.props.item;
@@ -33,7 +44,9 @@ class ListItem extends React.PureComponent {
         underlayColor='#dddddd'>
         <View>
           <View style={styles.rowContainer}>
-            <View style={styles.textContainer}>
+            <View style={styles.textContainer}
+            backgroundColor = {this.floodingColor(item.floodedby)}
+            >
               <Text style={styles.road}>{this.fixCase(item.roadname)}</Text>
               <Text style={styles.title}
                 numberOfLines={1}>{this.fixCase(item.stream)}</Text>
@@ -68,7 +81,9 @@ export default class TableView extends Component<Props> {
       "Basic " + base64.encode(global.token + ":x")
     );
 
-    fetch("https://vfis-beta.uvahydroinformatics.org/api/bridges", {
+    const { params } = this.props.navigation.state;
+    console.log("date: " + params.date);
+    fetch("https://vfis-beta.uvahydroinformatics.org/api/bridges/" + params.date, {
       method: "GET",
       headers: headers
     })
@@ -134,14 +149,14 @@ const styles = StyleSheet.create({
   road: {
     fontSize: 25,
     fontWeight: 'bold',
-    color: '#48BBEC'
+    color: '#3d3d3d'
   },
   title: {
     fontSize: 20,
-    color: '#656565'
+    color: '#3d3d3d'
   },
   rowContainer: {
     flexDirection: 'row',
-    padding: 10
+    padding: 10,
   },
 });

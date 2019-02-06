@@ -51,6 +51,8 @@ export default class BridgeInfo extends Component<Props> {
         <Text>Stream: {params.bridge.stream}</Text>
         <Text>Xcord: {params.bridge.xcord}</Text>
         <Text>Ycord: {params.bridge.ycord}</Text>
+        <Text>Flooded by: {params.bridge.floodedby}</Text>
+        <Text>Max WL: {params.bridge.maxwl}</Text>        
         <Text>Elevation: {params.bridge.roadelev}</Text>
         <Text>ID: {params.bridge.fedid}</Text>
       </View>
