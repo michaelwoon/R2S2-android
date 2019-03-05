@@ -48,7 +48,7 @@ export default class FormGenerator extends Component {
         )
     );
 
-    fetch("https://vfis-beta.uvahydroinformatics.org/api/login", {
+    fetch("http://35.194.88.251/api/login", {
       method: "GET",
       headers: headers
     })
@@ -73,6 +73,9 @@ export default class FormGenerator extends Component {
         }.bind(this)
       )
       .catch(function(ex) {
+        Alert.alert(
+          'Cannot connect to network'
+        );
         console.log('CATCH',ex);
       });
   }
