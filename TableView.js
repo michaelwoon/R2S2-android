@@ -83,7 +83,7 @@ export default class TableView extends Component<Props> {
 
     const { params } = this.props.navigation.state;
     console.log("date: " + params.date);
-    fetch("https://vfis-beta.uvahydroinformatics.org/api/bridges/" + params.date, {
+    fetch("http://35.194.88.251/api/bridges/" + params.date, {
       method: "GET",
       headers: headers
     })

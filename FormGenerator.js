@@ -33,7 +33,7 @@ export default class FormGenerator extends Component {
   login() {
     const formValues = this.formGenerator.getValues();
     //set props with username and pass (hardcoded for now)
-    // const username = formValues.user_name; //works
+    // const username = formValues.user_name;
     // const pass = formValues.password;
     const username = 'mohamedmorsyanwar@gmail.com';
     const pass = 'password';

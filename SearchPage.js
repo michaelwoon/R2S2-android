@@ -55,7 +55,7 @@ export default class SearchPage extends Component<Props> {
      "Basic " + base64.encode(global.token + ":x")
    );
 
-   fetch("https://vfis-beta.uvahydroinformatics.org/api/bridges/" + this.state.selectedDate, {
+   fetch("http://35.194.88.251/api/bridges/" + this.state.selectedDate, {
      method: "GET",
      headers: headers
    })
