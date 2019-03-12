@@ -127,6 +127,13 @@ export default class SearchPage extends Component<Props> {
             navigate('Table',{date: this.state.selectedDate})
           } />
       </View>
+      <View style={styles.wrapper}>
+        <Button
+          title="Map"
+          onPress={() =>
+            navigate('Map',{date: this.state.selectedDate})
+          } />
+      </View>
         <Text style={styles.description}>
           Search by stream or road name
         </Text>
@@ -151,7 +158,6 @@ export default class SearchPage extends Component<Props> {
           <Picker.Item label="20180917-190000" value="20180917-190000" />
         </Picker>
 
-        <Image source={require('./Resources/bridge.png')} style={styles.image}/>
         {spinner}
         <Text style={styles.description}>{this.state.message}</Text>
       </View>

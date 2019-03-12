@@ -13,6 +13,7 @@ import TableView from './TableView';
 import Login from './Login';
 import FormGenerator from './FormGenerator'
 import BridgeInfo from './BridgeInfo'
+import MapView from './MapView'
 
 //component that represents the UI
 type Props = {};
@@ -24,5 +25,6 @@ const App = createStackNavigator({
   Table: { screen: TableView },
   Login: { screen: Login },
   Info: { screen: BridgeInfo},
+  Map: { screen: MapView},
 });
 export default App;
