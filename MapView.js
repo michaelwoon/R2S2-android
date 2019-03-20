@@ -1,48 +1,30 @@
 'use strict';
 
-import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import base64 from "react-native-base64";
+import React, {Component} from 'react';
+import {View} from 'react-native';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 
 MapboxGL.setAccessToken("pk.eyJ1IjoidXZhaHlkcm9pbmZvcm1hdGljc2xhYiIsImEiOiJjamI5bXRqanowbTM4MnFwczN3emNjYW9oIn0.mejJdMMfKWw7xn0i5K6c2Q");
 
-const columbusCircleCoordinates = [
-  -73.98197650909422, 40.768793007758816
+const baseCoordinates = [
+  -77.2786997, 36.906495
 ];
 
-type Props = {};
-
-export default class MapView extends Component<Props> {
-
-  constructor(props){
-    super(props);
-  };
+export default class MapView extends Component<{}> {
   static navigationOptions = {
     title: 'Map',
   };
 
-  componentDidMount(){
-  };
-
-  render() {
-    const { params } = this.props.navigation.state;
+  render () {
     return (
       <View style={{flex: 1}}>
-        <MapboxGL.MapView
+          <MapboxGL.MapView
           ref={(c) => this._map = c}
           style={{flex: 1}}
-          zoomLevel={15}
-          centerCoordinate={columbusCircleCoordinates}>
+          zoomLevel={8}
+          centerCoordinate={baseCoordinates}>
         </MapboxGL.MapView>
       </View>
-    );
+      );
   }
 }
-
-const styles = StyleSheet.create({
-});
