@@ -104,7 +104,7 @@ export default class SearchPage extends Component<Props> {
       searchString: '',
       isLoading: false,
       message: '',
-      selectedDate: '',
+      selectedDate: "20181011-230000",
     };
   }
   render() {
@@ -153,7 +153,8 @@ export default class SearchPage extends Component<Props> {
         <Picker
           selectedValue={this.state.selectedDate}
           style={{ height: 50, width: 200 }}
-          onValueChange={(itemValue, itemIndex) => this.setState({selectedDate: itemValue})}>
+          onValueChange={(itemValue, itemIndex) => this.setState({selectedDate: itemValue})}
+          prompt="Select a date">
           <Picker.Item label="20181011-230000" value="20181011-230000" />
           <Picker.Item label="20180917-190000" value="20180917-190000" />
         </Picker>
