@@ -4,11 +4,11 @@ Setup:
 
 git clone https://github.com/michaelwoon/R2S2-android.git
 
-Download Android Studio
+Download Android Studio https://developer.android.com/studio/index.html
 
 Create an APK
 
-Install Node.js
+Install Node.js: 'sudo apt install nodejs '
 
 In R2S2-android directory, run 'npm install'
 
