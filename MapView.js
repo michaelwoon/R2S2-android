@@ -56,13 +56,18 @@ export default class MapView extends Component<Props> {
     this.loadBridges();
   };
 
-  makePoint(id, title, coordinates) {
+  selectPoint(item) {
+    console.log("selected " + item);
+    this.props.navigation.navigate('Info', {bridge: item});
+  };
+
+  makePoint(item, id, title, coordinates) {
     return (
       <MapboxGL.PointAnnotation
-        key={id}
         id={id}
         title={title}
-        coordinate={coordinates}>
+        coordinate={coordinates}
+        onSelected={this.selectPoint(item)}>
       </MapboxGL.PointAnnotation>
     );
   };
@@ -70,10 +75,11 @@ export default class MapView extends Component<Props> {
   showPoints() {
     let items = [];
     for (let i = 0; i < this.state.bridges.length; i++) {
+      let item = this.state.bridges[i];
       let id = this.state.bridges[i].fedid;
       let title = "Road: " + this.state.bridges[i].roadname + " Stream: " + this.state.bridges[i].stream;
       let coordinates = [parseFloat(this.state.bridges[i].xcord),parseFloat(this.state.bridges[i].ycord)];
-      items.push(this.makePoint(id,title,coordinates));
+      items.push(this.makePoint(item,id,title,coordinates));
     }
     return items;
   };

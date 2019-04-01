@@ -10,7 +10,6 @@ import {
 import SearchPage from './SearchPage';
 import SearchResults from './SearchResults';
 import TableView from './TableView';
-import Login from './Login';
 import FormGenerator from './FormGenerator'
 import BridgeInfo from './BridgeInfo'
 import MapView from './MapView'
@@ -23,7 +22,6 @@ const App = createStackNavigator({
   Home: { screen: SearchPage },
   Results: { screen: SearchResults },
   Table: { screen: TableView },
-  Login: { screen: Login },
   Info: { screen: BridgeInfo},
   Map: { screen: MapView},
 });

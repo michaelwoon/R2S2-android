@@ -28,8 +28,7 @@ export default class BridgeInfo extends Component<Props> {
 
 
   fixCase(str){
-    str = str.toLowerCase();
-    return str.charAt(0).toUpperCase() + str.slice(1);
+    return str.toUpperCase();
   };
 
   componentDidMount(){
@@ -47,14 +46,14 @@ export default class BridgeInfo extends Component<Props> {
     const { params } = this.props.navigation.state;
     return (
       <View style={styles.container}>
-        <Text>Road name: {params.bridge.roadname}</Text>
-        <Text>Stream: {params.bridge.stream}</Text>
-        <Text>Xcord: {params.bridge.xcord}</Text>
-        <Text>Ycord: {params.bridge.ycord}</Text>
-        <Text>Flooded by: {params.bridge.floodedby}</Text>
-        <Text>Max WL: {params.bridge.maxwl}</Text>        
-        <Text>Elevation: {params.bridge.roadelev}</Text>
-        <Text>ID: {params.bridge.fedid}</Text>
+        <View style={styles.title}>
+          <Text style={styles.titletext}>{this.fixCase(params.bridge.roadname)}</Text>
+        </View>
+        <Text style={styles.bodytext}>Stream Crossed: {this.fixCase(params.bridge.stream)}</Text>
+        <Text style={styles.bodytext}>Located at: [{params.bridge.xcord}, {params.bridge.ycord}]</Text>
+        <Text style={styles.bodytext}>Bridge Overtopped by: {params.bridge.floodedby} ft</Text>
+        <Text style={styles.bodytext}>Max Water Level: {params.bridge.maxwl} ft</Text>
+        <Text style={styles.bodytext}>Bridge Elevation: {params.bridge.roadelev} ft</Text>
       </View>
     );
   }
@@ -65,4 +64,17 @@ const styles = StyleSheet.create({
     padding: 20,
     flex: 1,
   },
+  title: {
+    alignItems: 'center',
+    paddingBottom: 20,
+  },
+  titletext: {
+    color: 'black',
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  bodytext: {
+    color: '#3d3d3d',
+    paddingBottom: 5,
+  }
 });
