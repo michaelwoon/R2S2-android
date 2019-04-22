@@ -85,7 +85,6 @@ export default class MapView extends Component<Props> {
   };
 
   render () {
-    console.log(this.state.bridges.length);
     if(this.state.bridges.length == 0) {
       return <View></View>
     }
@@ -96,12 +95,6 @@ export default class MapView extends Component<Props> {
           style={{flex: 1}}
           zoomLevel={9}
           centerCoordinate={baseCoordinates}>
-          <MapboxGL.PointAnnotation
-            key="key1"
-            id="id1"
-            title="Test"
-            coordinate={baseCoordinates}>
-          </MapboxGL.PointAnnotation>
           {this.showPoints()}
         </MapboxGL.MapView>
       </View>

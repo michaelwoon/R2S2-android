@@ -16,6 +16,11 @@ import MapView from './MapView'
 
 //component that represents the UI
 type Props = {};
+
+// const AppNavigator = createStackNavigator({...});
+// const navigationPersistenceKey = __DEV__ ? "NavigationStateDEV" : null;
+// const App = () => <AppNavigator persistenceKey={navigationPersistenceKey} />;
+
 //configures searchpage component as first on stack
 const App = createStackNavigator({
   Form: { screen: FormGenerator },

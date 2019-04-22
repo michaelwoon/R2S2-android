@@ -1,0 +1,15 @@
+The folders are for running the application, most of the time they will not be used
+
+App.js
+app.json
+BridgeInfo.js
+FormGenerator.js
+index.js
+MapView.js
+package-lock.json
+package.json
+README.md
+SearchPage.js
+SearchResults.js
+TableView.js
+yarn.lock 

@@ -13,6 +13,8 @@ import {
   Picker,
 } from 'react-native';
 import base64 from "react-native-base64";
+import { CheckBox } from 'react-native-elements';
+
 
 type Props = {};
 export default class SearchPage extends Component<Props> {
@@ -25,7 +27,15 @@ export default class SearchPage extends Component<Props> {
     searchstr = searchstr.toLowerCase();
     for(var i = 0; i < data.length; i++) {
       if(data[i].stream.toLowerCase().includes(searchstr) || data[i].roadname.toLowerCase().includes(searchstr)){
-        newdata.push(data[i]);
+        if(data[i].floodedby > 0 && this.state.floodExpected) {
+          newdata.push(data[i]);
+        }
+        else if(data[i].floodedby < 0 && data[i].floodedby > -0.3 && this.state.floodPossible) {
+          newdata.push(data[i]);
+        }
+        else if(data[i].floodedby < -0.3 && this.state.noFlood) {
+          newdata.push(data[i]);
+        }
       }
     }
     return newdata;
@@ -105,6 +115,9 @@ export default class SearchPage extends Component<Props> {
       isLoading: false,
       message: '',
       selectedDate: "20181011-230000",
+      noFlood: true,
+      floodPossible: true,
+      floodExpected: true,
     };
   }
   render() {
@@ -113,6 +126,7 @@ export default class SearchPage extends Component<Props> {
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
+      <View style={styles.buttons}>
       <View style={styles.wrapper}>
         <Button
           title="Log out"
@@ -124,15 +138,26 @@ export default class SearchPage extends Component<Props> {
         <Button
           title="View all bridges"
           onPress={() =>
-            navigate('Table',{date: this.state.selectedDate})
+            navigate('Table',{
+              date: this.state.selectedDate,
+              noFlood: this.state.noFlood,
+              floodPossible: this.state.floodPossible,
+              floodExpected: this.state.floodExpected
+            })
           } />
       </View>
       <View style={styles.wrapper}>
         <Button
           title="Map"
           onPress={() =>
-            navigate('Map',{date: this.state.selectedDate})
+            navigate('Map',{
+              date: this.state.selectedDate,
+              noFlood: this.state.noFlood,
+              floodPossible: this.state.floodPossible,
+              floodExpected: this.state.floodExpected
+            })
           } />
+      </View>
       </View>
         <Text style={styles.description}>
           Search by stream or road name
@@ -158,7 +183,21 @@ export default class SearchPage extends Component<Props> {
           <Picker.Item label="20181011-230000" value="20181011-230000" />
           <Picker.Item label="20180917-190000" value="20180917-190000" />
         </Picker>
-
+        <CheckBox
+          title='No flooding expected'
+          checked={this.state.noFlood}
+          onPress={() => this.setState({noFlood: !this.state.noFlood})}
+        />
+        <CheckBox
+          title='Floodng possible'
+          checked={this.state.floodPossible}
+          onPress={() => this.setState({floodPossible: !this.state.floodPossible})}
+        />
+        <CheckBox
+          title='Flooding expected'
+          checked={this.state.floodExpected}
+          onPress={() => this.setState({floodExpected: !this.state.floodExpected})}
+        />
         {spinner}
         <Text style={styles.description}>{this.state.message}</Text>
       </View>
@@ -200,7 +239,12 @@ const styles = StyleSheet.create({
     height: 138,
   },
   wrapper: {
-    marginTop : 10,
-    marginBottom: 10,
+    marginTop : 5,
+    marginBottom: 5,
+    marginRight: 5,
+    marginLeft: 5,
+  },
+  buttons: {
+    flexDirection: 'row',
   },
 });

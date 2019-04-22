@@ -39,9 +39,10 @@ class ListItem extends React.PureComponent {
         onPress={this._onPress}
         underlayColor='#dddddd'>
         <View>
-          <View style={styles.rowContainer}>
-            <View style={styles.textContainer}
-            backgroundColor = {this.floodingColor(item.floodedby)}>
+          <View style={styles.rowContainer}
+          backgroundColor = {this.floodingColor(item.floodedby)}
+          >
+            <View style={styles.textContainer}>
               <Text style={styles.road}>{this.fixCase(item.roadname)}</Text>
               <Text style={styles.title}
                 numberOfLines={1}>{this.fixCase(item.stream)}</Text>

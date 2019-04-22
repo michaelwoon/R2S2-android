@@ -43,10 +43,10 @@ class ListItem extends React.PureComponent {
         onPress={this._onPress}
         underlayColor='#dddddd'>
         <View>
-          <View style={styles.rowContainer}>
-            <View style={styles.textContainer}
-            backgroundColor = {this.floodingColor(item.floodedby)}
-            >
+          <View style={styles.rowContainer}
+          backgroundColor = {this.floodingColor(item.floodedby)}
+          >
+            <View style={styles.textContainer}>
               <Text style={styles.road}>{this.fixCase(item.roadname)}</Text>
               <Text style={styles.title}
                 numberOfLines={1}>{this.fixCase(item.stream)}</Text>
@@ -66,8 +66,10 @@ type Props = {};
 export default class TableView extends Component<Props> {
   constructor(props){
     super(props);
-    this.state = { isLoading: true};
-    this.bridges = [];
+    this.state = {
+      isLoading: true,
+      bridges: [],
+    };
   };
   static navigationOptions = {
     title: 'Table',
@@ -107,6 +109,23 @@ export default class TableView extends Component<Props> {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
+  filterData(data) {
+    const { params } = this.props.navigation.state;
+    var newdata = [];
+    for(var i = 0; i < data.length; i++) {
+      if(data[i].floodedby > 0 && params.floodExpected) {
+        newdata.push(data[i]);
+      }
+      else if(data[i].floodedby < 0 && data[i].floodedby > -0.3 && params.floodPossible) {
+        newdata.push(data[i]);
+      }
+      else if(data[i].floodedby < -0.3 && params.noFlood) {
+        newdata.push(data[i]);
+      }
+    }
+    return newdata;
+  };
+
   componentDidMount(){
     this.loadBridges();
   };
@@ -128,9 +147,12 @@ export default class TableView extends Component<Props> {
 
   render() {
     const { params } = this.props.navigation.state;
+    if(this.state.bridges.length == 0) {
+      return null;
+    }
     return (
       <FlatList
-        data={this.state.bridges}
+        data={this.filterData(this.state.bridges)}
         keyExtractor={this._keyExtractor}
         renderItem={this._renderItem}
       />
